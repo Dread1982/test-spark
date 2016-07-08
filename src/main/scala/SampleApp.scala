@@ -17,5 +17,11 @@ object SampleApp {
     val movies_trans = movies.filter(row => row.getString("title").toLowerCase.contains("pirate")).foreach(println)
     println()
 
+    case class Record(releaseYear: Int, title: String, rating: Option[Float])
+
+    val moviesToRecord = sc.cassandraTable("video", "movies_by_actor").select("release_year", "title", "rating").as((y:Int,t:String,r:Option[Float]) => new Record(y,t,r))
+
+    println(moviesToRecord.toDebugString)
+    println()
   }
 }
