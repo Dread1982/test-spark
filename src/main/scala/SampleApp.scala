@@ -47,6 +47,7 @@ object SampleApp {
     conf.set("spark.replClassServer.port", "7005")
     conf.set("spark.blockManager.port", "7006")
     conf.set("spark.executor.port", "7007")
+    conf.set("spark.cassandra.connection.host", "cassandra_3")
 
     val sc = new SparkContext(conf)
 
@@ -57,6 +58,11 @@ object SampleApp {
 
     println("\n################################################\n")
     println("Lines with a: %s, Lines with b: %s, Lines with c: %s\n".format(numAs, numBs, numCs))
+
+    val values = sc.cassandraTable("test", "kv")
+    println(values.first())
+    println()
+
     println("################################################\n")
 
     sc.stop()
